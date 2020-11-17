@@ -1,19 +1,13 @@
-package com.example.demo.service;
+package com.example.demo.service.product;
 
 import com.example.demo.model.Product;
-import com.example.demo.repository.ProductRepository;
-import com.example.demo.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.Optional;
 
-public class ProductServiceIml implements ProductService {
-    @Autowired
-    ProductRepository productRepository;
-
+public class ProductServiceImImpl  implements  ProductService{
     @Override
     public Iterable<Product> findAll(Sort sort) {
         return null;
@@ -21,7 +15,7 @@ public class ProductServiceIml implements ProductService {
 
     @Override
     public Page<Product> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
+        return null;
     }
 
     @Override
@@ -66,6 +60,6 @@ public class ProductServiceIml implements ProductService {
 
     @Override
     public Page<Product> findAllByNameContaining(String name, Pageable pageable) {
-        return productRepository.findAllByNameContaining(name,pageable);
+        return null;
     }
 }

@@ -7,11 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "roles")
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @SequenceGenerator(name = "Role_SEQ", sequenceName = "SEQUENCE_Role", allocationSize = 1)
     private Long id;
 
     @Column
