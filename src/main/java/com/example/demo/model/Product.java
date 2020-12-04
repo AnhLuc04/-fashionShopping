@@ -15,6 +15,7 @@ public class Product {
     private Long price;
     private Long quantity;
     private String img;
+    private boolean status;
     @Transient
     private MultipartFile imgFile;
 //    @OneToMany(mappedBy = "product")
@@ -91,7 +92,13 @@ public class Product {
         this.imgFile = imgFile;
     }
 
+    public boolean isStatus() {
+        return status;
+    }
 
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 //    public Set<Cart> getCarts() {
 //        return carts;
 //    }

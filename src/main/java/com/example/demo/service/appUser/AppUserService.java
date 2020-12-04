@@ -4,6 +4,7 @@ import com.example.demo.model.AppUser;
 import com.example.demo.model.Role;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Optional;
 
@@ -28,5 +29,5 @@ public interface AppUserService {
 
     AppUser save(AppUser appUser);
 
-    void remove(Long id);
+    RedirectView remove(Long id);
 }

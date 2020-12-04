@@ -35,6 +35,8 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers( "/admin/**").hasRole("ADMIN")
                 .and()
+                .authorizeRequests().antMatchers( "/admin/**").hasRole("ADMIN")
+                .and()
                 .formLogin().loginPage("/login").successHandler(customSuccessHandler)
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

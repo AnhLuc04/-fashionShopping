@@ -1,18 +1,19 @@
 package com.example.demo.service.appUser;
 
 
-
 import com.example.demo.model.AppUser;
 import com.example.demo.model.Role;
 import com.example.demo.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +31,9 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     @Override
     public Iterable<AppUser> getAllByRoleId(Long id) {
-        return appUserRepository.getAllByRoleId(id);
+//        return appUserRepository.getAllByRoleId(id);
+        return null;
     }
-
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = this.getUserByUsername(username);
@@ -46,6 +46,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
                 authorities);
         return userDetails;
     }
+
 
     @Override
     public AppUser getCurrentUser() {
@@ -63,17 +64,19 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     @Override
     public Iterable<AppUser> getAllByRoleIsNotContaining(Long id) {
-        return appUserRepository.getAllByRoleIsNotContaining(id);
+//        return appUserRepository.getAllByRoleIsNotContaining(id);
+        return null;
     }
 
     @Override
     public Iterable<AppUser> getAllByRoleOrRole(Role role1, Role role2) {
-        return appUserRepository.getAllByRoleOrRole(role1, role2);
+//        return appUserRepository.getAllByRoleOrRole(role1, role2);
+        return null;
     }
 
     @Override
     public Iterable<AppUser> getAllByNameIsContaining(String name) {
-        return appUserRepository.getAllByUserNameIsContaining(name);
+        return appUserRepository.getAllByUserNameContaining(name);
     }
 
     @Override
@@ -83,8 +86,9 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     @Override
     public Optional<AppUser> findById(Long id) {
-        return appUserRepository.findById(id);
+        return Optional.empty();
     }
+
 
     @Override
     public AppUser save(AppUser appUser) {
@@ -92,8 +96,9 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     }
 
     @Override
-    public void remove(Long id) {
+    public RedirectView remove(Long id) {
         appUserRepository.deleteById(id);
+        return null;
     }
 
 

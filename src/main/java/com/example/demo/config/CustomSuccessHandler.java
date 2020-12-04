@@ -49,8 +49,11 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         if (isAdmin(roles)) {
             url = "/admin";
         } else if (isUser(roles)) {
-            url = "/users/timeline";
-        } else {
+            url = "/users";
+        } else  if(isRegster(roles)){
+            url="/";
+        }
+        else {
             url = "/khongcoquyen";
         }
         return url;
@@ -70,12 +73,12 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         return false;
     }
 
-//    private boolean isDba(List<String> roles) {
-//        if (roles.contains("ROLE_DBA")) {
-//            return true;
-//        }
-//        return false;
-//    }
+    private boolean isRegster(List<String> roles) {
+        if (roles.contains("ROLE_REGSTER")) {
+            return true;
+        }
+        return false;
+    }
 
     public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
         this.redirectStrategy = redirectStrategy;

@@ -1,13 +1,19 @@
 package com.example.demo.service.product;
 
 import com.example.demo.model.Product;
+import com.example.demo.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class ProductServiceImImpl  implements  ProductService{
+    @Autowired
+    ProductRepository productRepository;
     @Override
     public Iterable<Product> findAll(Sort sort) {
         return null;
@@ -15,22 +21,12 @@ public class ProductServiceImImpl  implements  ProductService{
 
     @Override
     public Page<Product> findAll(Pageable pageable) {
-        return null;
+        return productRepository.findAll(pageable);
     }
 
     @Override
-    public void save(Product product) {
-
-    }
-
-    @Override
-    public Optional<Product> findById(Long id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public boolean existsById(Long id) {
-        return false;
+    public Page<Product> findAllByNameContaining(String name, Pageable pageable) {
+        return productRepository.findAllByNameContaining(name,pageable);
     }
 
     @Override
@@ -39,27 +35,17 @@ public class ProductServiceImImpl  implements  ProductService{
     }
 
     @Override
-    public long count() {
-        return 0;
+    public Optional<Product> findById(Long id) {
+        return productRepository.findById(id);
     }
 
     @Override
-    public void deleteById(Long Long) {
-
-    }
-
-    @Override
-    public void delete(Product product) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public Page<Product> findAllByNameContaining(String name, Pageable pageable) {
+    public Product save(Product product) {
         return null;
+    }
+
+    @Override
+    public void remove(Long id) {
+
     }
 }

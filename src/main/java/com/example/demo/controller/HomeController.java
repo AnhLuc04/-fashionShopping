@@ -17,9 +17,6 @@ public class HomeController {
     @Autowired
     private AppUserService appUserService;
 
-//    @Autowired
-//    private RoleService roleService;
-
     @GetMapping("khongcoquyen")
     public String accessDenied(){
         return "noRight";
@@ -38,9 +35,8 @@ public class HomeController {
 
     @GetMapping("/register")
     public ModelAndView showRegisterForm(){
-        ModelAndView modelAndView = new ModelAndView("register");
+        ModelAndView modelAndView = new ModelAndView("login");
         modelAndView.addObject("appUser",new AppUser());
         return modelAndView;
     }
-
 }
