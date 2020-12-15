@@ -86,7 +86,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     @Override
     public Optional<AppUser> findById(Long id) {
-        return Optional.empty();
+        return appUserRepository.findById(id);
     }
 
 

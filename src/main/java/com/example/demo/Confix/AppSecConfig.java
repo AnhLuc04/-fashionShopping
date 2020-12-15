@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.Confix;
 
 
 import com.example.demo.service.appUser.AppUserService;
@@ -29,14 +29,13 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/","/test").permitAll()
+        http.authorizeRequests().antMatchers("/","/test","/createUser").permitAll()
                 .and()
                 .authorizeRequests().antMatchers( "/users/**").hasRole("USER")
                 .and()
                 .authorizeRequests().antMatchers( "/admin/**").hasRole("ADMIN")
                 .and()
-                .authorizeRequests().antMatchers( "/admin/**").hasRole("ADMIN")
-                .and()
+
                 .formLogin().loginPage("/login").successHandler(customSuccessHandler)
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

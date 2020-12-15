@@ -8,7 +8,7 @@ public interface GeneralService<T> {
 
     Iterable<T> findAll();
 
-    Optional<Product> findById(Long id);
+    Optional<T> findById(Long id);
 
     T save(T t);
 

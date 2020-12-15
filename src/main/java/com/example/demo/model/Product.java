@@ -1,8 +1,12 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.groups.Default;
+import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -15,9 +19,12 @@ public class Product {
     private Long price;
     private Long quantity;
     private String img;
-    private boolean status;
+    private boolean status = false;
     @Transient
     private MultipartFile imgFile;
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER,targetEntity = Comment.class)
+    @JsonIgnoreProperties(value = {"product"})
+    List<Comment> comment;
 //    @OneToMany(mappedBy = "product")
 //    private Set<Cart> carts;
 //
@@ -98,6 +105,14 @@ public class Product {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public List<Comment> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<Comment> comment) {
+        this.comment = comment;
     }
 //    public Set<Cart> getCarts() {
 //        return carts;

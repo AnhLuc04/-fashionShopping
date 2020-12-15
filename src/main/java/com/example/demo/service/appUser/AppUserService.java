@@ -12,7 +12,7 @@ import java.util.Optional;
 @Component
 public interface AppUserService {
     AppUser getUserByUsername(String username);
-
+//    AppUser findByName(String name);
     Iterable<AppUser> getAllByRoleId(Long id);
 
     AppUser getCurrentUser();

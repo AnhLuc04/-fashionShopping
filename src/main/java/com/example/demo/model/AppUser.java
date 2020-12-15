@@ -1,6 +1,9 @@
 package com.example.demo.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -8,7 +11,9 @@ import java.util.Set;
 
 
 @Entity
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +22,7 @@ public class AppUser {
     private String password;
     private String avatar;
     private String address;
-    private boolean status;
+//    private boolean status;
     private Long orderNumber;
 
     @Transient
@@ -85,14 +90,14 @@ public class AppUser {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+//
+//    public boolean isStatus() {
+//        return status;
+//    }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
+//    public void setStatus(boolean status) {
+//        this.status = status;
+//    }
 
     public MultipartFile getAvatarFile() {
         return avatarFile;

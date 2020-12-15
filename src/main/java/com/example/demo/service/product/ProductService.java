@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import java.util.Optional;
 
 public interface ProductService extends GeneralService<Product> {
+    Product findByProductId(Long product_id);
 
     Iterable<Product> findAll(Sort sort);
 

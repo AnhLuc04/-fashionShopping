@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.Confix;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -53,7 +53,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         } else  if(isRegster(roles)){
             url="/";
         }
-        else {
+                else {
             url = "/khongcoquyen";
         }
         return url;

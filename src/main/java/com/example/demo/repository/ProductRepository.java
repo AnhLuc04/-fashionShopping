@@ -11,4 +11,6 @@ public interface ProductRepository extends PagingAndSortingRepository<Product,Lo
 //    Page<Product> findAllByUserNameContaining(String name , Pageable pageable);
     Page<Product>findAllByNameContaining(String name , Pageable pageable);
     Product findByName(Product product);
+    Product findByProductId(Long product_id);
+//    Product getProductBy
 }

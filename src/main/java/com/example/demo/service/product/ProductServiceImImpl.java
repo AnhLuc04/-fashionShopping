@@ -14,6 +14,13 @@ import java.util.Optional;
 public class ProductServiceImImpl  implements  ProductService{
     @Autowired
     ProductRepository productRepository;
+
+
+    @Override
+    public Product findByProductId(Long product_id) {
+        return productRepository.findById(product_id).orElse(null);
+    }
+
     @Override
     public Iterable<Product> findAll(Sort sort) {
         return null;
@@ -41,11 +48,11 @@ public class ProductServiceImImpl  implements  ProductService{
 
     @Override
     public Product save(Product product) {
-        return null;
+        return productRepository.save(product);
     }
 
     @Override
     public void remove(Long id) {
-
+productRepository.deleteById(id);
     }
 }
