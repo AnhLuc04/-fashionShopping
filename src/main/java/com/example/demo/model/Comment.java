@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 @Entity
 @Data @AllArgsConstructor
@@ -31,5 +30,49 @@ public class Comment {
 
     public void setNoti(String noti) {
         this.noti = appUser.getUserName() + "just commented on your post!";
+    }
+
+    public Long getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(Long comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    public Date getComment_date() {
+        return comment_date;
+    }
+
+    public void setComment_date(Date comment_date) {
+        this.comment_date = comment_date;
+    }
+
+            public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getNoti() {
+        return noti;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
     }
 }

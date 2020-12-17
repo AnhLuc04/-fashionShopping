@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import javax.validation.groups.Default;
 import java.util.List;
 import java.util.Set;
 
@@ -18,22 +17,24 @@ public class Product {
     private String name;
     private Long price;
     private Long quantity;
+    private String size;
+    private String description;
     private String img;
     private boolean status = false;
     @Transient
     private MultipartFile imgFile;
-    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER,targetEntity = Comment.class)
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, targetEntity = Comment.class)
     @JsonIgnoreProperties(value = {"product"})
-    List<Comment> comment;
+    Set<Comment> comment;
 //    @OneToMany(mappedBy = "product")
 //    private Set<Cart> carts;
 //
-//    @ManyToOne
-//    @JoinColumn(name = "category_id")
-//    private Category category;
-//    public Product() {
-//    }
-//
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+    public Product() {
+    }
+
 //    public Product( String product_Name, Long price, Long quantity, String img, MultipartFile imgFile) {
 //        Product_Name = product_Name;
 //        this.price = price;
@@ -50,6 +51,21 @@ public class Product {
 //        this.img = img;
 //        this.imgFile = imgFile;
 //    }
+    //    public Set<Cart> getCarts() {
+//        return carts;
+//    }
+//
+//    public void setCarts(Set<Cart> carts) {
+//        this.carts = carts;
+//    }
+//
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public Long getProductId() {
         return productId;
@@ -83,20 +99,28 @@ public class Product {
         this.quantity = quantity;
     }
 
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String describe) {
+        this.description = describe;
+    }
+
     public String getImg() {
         return img;
     }
 
     public void setImg(String img) {
         this.img = img;
-    }
-
-    public MultipartFile getImgFile() {
-        return imgFile;
-    }
-
-    public void setImgFile(MultipartFile imgFile) {
-        this.imgFile = imgFile;
     }
 
     public boolean isStatus() {
@@ -107,26 +131,19 @@ public class Product {
         this.status = status;
     }
 
-    public List<Comment> getComment() {
+    public MultipartFile getImgFile() {
+        return imgFile;
+    }
+
+    public void setImgFile(MultipartFile imgFile) {
+        this.imgFile = imgFile;
+    }
+
+    public Set<Comment> getComment() {
         return comment;
     }
 
-    public void setComment(List<Comment> comment) {
+    public void setComment(Set<Comment> comment) {
         this.comment = comment;
     }
-//    public Set<Cart> getCarts() {
-//        return carts;
-//    }
-//
-//    public void setCarts(Set<Cart> carts) {
-//        this.carts = carts;
-//    }
-//
-//    public Category getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(Category category) {
-//        this.category = category;
-//    }
 }

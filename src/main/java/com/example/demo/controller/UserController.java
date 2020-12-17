@@ -7,9 +7,8 @@ import com.example.demo.service.cart.CartService;
 import com.example.demo.service.comment.CommentService;
 import com.example.demo.service.orderDetails.OrderDetailsService;
 import com.example.demo.service.product.ProductService;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,15 +16,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
-
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Controller
@@ -41,6 +40,8 @@ public class UserController {
     OrderDetailsService orderDetailsService;
     @Autowired
     CommentService commentService;
+    @Autowired
+    Environment evn;
 
     @ModelAttribute("username")
     public String getPrincipal() {
@@ -53,6 +54,12 @@ public class UserController {
             username = principal.toString();
         }
         return username;
+    }
+
+    @ModelAttribute("content")
+    public Iterable<Comment> showDescription() {
+        Iterable<Comment> comment = commentService.findAll();
+        return comment;
     }
 
     @GetMapping("")
@@ -88,7 +95,7 @@ public class UserController {
 
     @PostMapping("/edit")
     public ModelAndView eitUser(@ModelAttribute("appUser") AppUser myFile, @Param("avatarFile") MultipartFile multipartFile) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/login");
+        ModelAndView modelAndView = new ModelAndView("redirect:/");
 
 
         try {
@@ -99,6 +106,12 @@ public class UserController {
             }
             multipartFile = myFile.getAvatarFile();
             String fileName = multipartFile.getOriginalFilename();
+            String fileUpload = evn.getProperty("file_upload").toString();
+            try {
+                FileCopyUtils.copy(multipartFile.getBytes(), new File(fileUpload + fileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             AppUser myFile1 = new AppUser();
             myFile1.setAvatarFile(multipartFile);
             myFile1.setAvatar(fileName);
@@ -117,25 +130,28 @@ public class UserController {
 
     @GetMapping("/create/product")
     public ModelAndView createUser() {
-        return new ModelAndView("createProduct", "product", new Product());
+        Product product = new Product();
+        return new ModelAndView("createProduct", "product", product);
     }
 
     @PostMapping("/create/product")
     public ModelAndView createProduct(@ModelAttribute("product") Product myFile, @ModelAttribute("imgFile") MultipartFile multipartFile) {
         ModelAndView modelAndView = new ModelAndView("createProduct");
-//        try {
-//            if(myFile.getRole()==null){
-//                Role role= new Role();
-//                role.setId((long) 2);
-//                myFile.setRole(role);
-//            }
         multipartFile = myFile.getImgFile();
         String fileName = multipartFile.getOriginalFilename();
+        String fileUpload = evn.getProperty("file_upload").toString();
+        try {
+            FileCopyUtils.copy(multipartFile.getBytes(), new File(fileUpload + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Product myFile1 = new Product();
         myFile1.setImgFile(multipartFile);
         myFile1.setImg(fileName);
         myFile1.setName(myFile.getName());
         myFile1.setPrice(myFile.getPrice());
+        myFile1.setSize(myFile.getSize());
+        //  myFile1.setDescription(myFile.getDescription());
         myFile1.setQuantity(myFile.getQuantity());
 //        myFile1.setProductId(myFile.getProductId());
         if (myFile.isStatus() == false) {
@@ -157,20 +173,22 @@ public class UserController {
     @PostMapping("/edit/product")
     public ModelAndView editProduct(@ModelAttribute("product") Product myFile, @ModelAttribute("imgFile") MultipartFile multipartFile) {
         ModelAndView modelAndView = new ModelAndView("editProduct");
-//        try {
-//            if(myFile.getRole()==null){
-//                Role role= new Role();
-//                role.setId((long) 2);
-//                myFile.setRole(role);
-//            }
+
         multipartFile = myFile.getImgFile();
         String fileName = multipartFile.getOriginalFilename();
+        String fileUpload = evn.getProperty("file_upload").toString();
+        try {
+            FileCopyUtils.copy(multipartFile.getBytes(), new File(fileUpload + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Product myFile1 = new Product();
         myFile1.setImgFile(multipartFile);
         myFile1.setImg(fileName);
         myFile1.setName(myFile.getName());
         myFile1.setPrice(myFile.getPrice());
-        myFile1.setQuantity(myFile.getQuantity());
+        myFile1.setSize(myFile.getSize());
+//        myFile1.setQuantity(myFile.getQuantity());
         myFile1.setProductId(myFile.getProductId());
 //        myFile1.setComment(myFile.getProductId());
 //        if(myFile1.getComment()==null){
@@ -210,19 +228,32 @@ public class UserController {
         return new RedirectView("");
     }
 
+    @GetMapping("/list/cart")
+    public ModelAndView showCart() {
+        ModelAndView modelAndView = new ModelAndView("cart");
+        String principal = getPrincipal();
+        AppUser user = appUserService.getUserByUsername(principal);
+        Iterable<Cart> cart = cartService.getCartByAppUser(user);
+        modelAndView.addObject("cart", cart);
+        return modelAndView;
+    }
+
     @GetMapping("/createCart/{productId}")
     public RedirectView addCart(@PathVariable Long productId) {
 
 
         String principal = getPrincipal();
         AppUser user = appUserService.getUserByUsername(principal);
-        Cart cart = cartService.findAllByOrderNumberAndUser(user.getOrderNumber(), user);
-
-        Long productID = cart.getProduct().getProductId();
-        if (productID == productId) {
-            Product product = productService.findByProductId(productId);
-            Cart cart1 = new Cart(user, product, (long) +1, this.getUser().getOrderNumber());
+        //   Cart cart = cartService.findAllByOrderNumberAndUser(user.getOrderNumber(), user);
+        Product product = productService.findByProductId(productId);
+        Cart cart1 = new Cart(user, product, (long) +1, this.getUser().getOrderNumber());
+        if (cart1.getAppUser().getUserName() == user.getUserName()) {
+            cartService.save(cart1);
         } else {
+            cart1.setAppUser(null);
+            cart1.setProduct(null);
+            cart1.setOrderNumber(null);
+            cart1.setQuantity(null);
             return new RedirectView("noRight");
         }
         return new RedirectView("");
@@ -242,11 +273,14 @@ public class UserController {
         String principal = getPrincipal();
         AppUser user = appUserService.getUserByUsername(principal);
         Long sum = Long.valueOf(0);
-        Cart carts = cartService.getCartByAppUser( user);
-        Product product = productService.findByProductId(carts.getProduct().getProductId());
-        product.setQuantity(product.getQuantity() - carts.getQuantity());
-        productService.save(product);
-        sum += carts.getQuantity() * carts.getProduct().getPrice();
+        Iterable<Cart> carts = cartService.findCartByAppUser(user);
+        for (Cart cart : carts)
+            if (cart == carts) {
+                Product product = productService.findByProductId(cart.getProduct().getProductId());
+                product.setQuantity(product.getQuantity() - cart.getQuantity());
+                productService.save(product);
+                sum += cart.getQuantity() * cart.getProduct().getPrice();
+            }
 
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setOrderNumber(this.getUser().getOrderNumber() + 1);
@@ -254,26 +288,43 @@ public class UserController {
         orderDetailsService.save(orderDetails);
         this.getUser().setOrderNumber(this.getUser().getOrderNumber());
         appUserService.save(this.getUser());
-        return "redirect:/";
+        return "redirect:/users";
     }
-    @PostMapping("/creat/comment")
-    public ModelAndView homeComment( @ModelAttribute("content") String content){
-        ModelAndView modelAndView = new ModelAndView("redirect:/users");
 
-//        Product product1 = productService.findById(id).get();
+    @GetMapping("/creat/comment")
+    public ModelAndView homeComment(@ModelAttribute("ProductId") Long id, @ModelAttribute("content") String content) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/");
+
+        Product product = productService.findById(id).get();
         String principal = getPrincipal();
         AppUser user = appUserService.getUserByUsername(principal);
-        Cart carts = cartService.getCartByAppUser( user);
-        Product product1= productService.findByProductId(carts.getProduct().getProductId())
+        Product product1 = productService.findByProductId(product.getProductId());
         Comment commentPost = new Comment();//tạo comment lưu và database. rồi mới xét lại commment cho post
         commentPost.setContent(content);
         commentPost.setAppUser(appUserService.getCurrentUser());
         commentPost.setProduct(product1);
-       commentService.save(commentPost);
-
-        product1.setComment((List<Comment>) commentService.getAllByProduct(product1));
+        commentService.save(commentPost);
+        product1.setComment((Set<Comment>) commentService.getAllByProduct(product1));
         productService.save(product1);
+        return modelAndView;
+    }
 
+    @GetMapping("/detail/{id}")
+    public ModelAndView showProductDetail(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("product-details");
+        Optional<Product> product = productService.findById(id);
+        modelAndView.addObject("product", product.get());
+
+        return modelAndView;
+    }
+
+    @GetMapping("/comment")
+    public ModelAndView showComment() {
+        ModelAndView modelAndView = new ModelAndView("comment");
+        String principal = getPrincipal();
+        AppUser user = appUserService.getUserByUsername(principal);
+        Iterable<Comment> comment = commentService.getAllByAppUser(user);
+        modelAndView.addObject("comment", comment);
         return modelAndView;
     }
 }

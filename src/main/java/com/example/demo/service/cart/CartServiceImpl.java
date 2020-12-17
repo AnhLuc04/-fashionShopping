@@ -47,8 +47,18 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart getCartByAppUser(AppUser user) {
+    public Iterable<Cart> getCartByAppUser(AppUser user) {
         return cartRepository.getCartByAppUser(user);
+    }
+
+    @Override
+    public Iterable<Cart> findCartByAppUser(AppUser user) {
+        return cartRepository.getCartByAppUser(user);
+    }
+
+    @Override
+    public Cart findCartByAppUsers(AppUser user) {
+        return cartRepository.findCartByAppUser(user);
     }
 
 

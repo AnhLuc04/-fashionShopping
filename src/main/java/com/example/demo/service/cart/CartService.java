@@ -12,5 +12,7 @@ import org.springframework.stereotype.Service;
 public interface CartService extends GeneralService<Cart> {
     Cart findByProductAndUser(Product product, AppUser user);
     Cart findAllByOrderNumberAndUser(Long orderNumber, AppUser user);
-    Cart getCartByAppUser( AppUser user);
+    Iterable<Cart> getCartByAppUser(AppUser user);
+    Iterable<Cart> findCartByAppUser(AppUser user);
+    Cart findCartByAppUsers(AppUser user);
 }

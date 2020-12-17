@@ -1,5 +1,6 @@
 package com.example.demo.service.comment;
 
+import com.example.demo.model.AppUser;
 import com.example.demo.model.Comment;
 import com.example.demo.model.Product;
 import com.example.demo.repository.CommentRepository;
@@ -36,5 +37,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Iterable<Comment> getAllByProduct(Product product) {
         return commentRepository.getAllByProduct(product);
+    }
+
+    @Override
+    public Iterable<Comment> getAllByAppUser(AppUser user) {
+        return commentRepository.getAllByAppUser(user);
     }
 }

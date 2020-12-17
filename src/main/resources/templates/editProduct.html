@@ -9,7 +9,7 @@
     <meta content="eCommerce HTML Template Free Download" name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="/img/favicon.ico" rel="icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Code+Pro:700,900&display=swap"
@@ -22,7 +22,7 @@
     <link href="lib/slick/slick-theme.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -56,7 +56,7 @@
                 <div class="navbar-nav mr-auto">
                     <a href="index.html" class="nav-item nav-link">Home</a>
                     <a href="product-list.html" class="nav-item nav-link">Products</a>
-                    <a href="product-detail.html" class="nav-item nav-link">Product Detail</a>
+                    <a href="product-details.html" class="nav-item nav-link">Product Detail</a>
                     <a href="cart.html" class="nav-item nav-link">Cart</a>
                     <a href="checkout.html" class="nav-item nav-link">Checkout</a>
                     <a href="my-account.html" class="nav-item nav-link">My Account</a>
@@ -91,7 +91,7 @@
             <div class="col-md-3">
                 <div class="logo">
                     <a href="index.html">
-                        <img src="img/logo.png" alt="Logo">
+                        <img src="/img/logo.png" alt="Logo">
                     </a>
                 </div>
             </div>
@@ -154,12 +154,12 @@
                         </div>
                         <div class="col-md-6">
                             <label>Quantity</label>
-                            <input class="form-control" th:field="*{quantity}" name="orderNumber" type="text" placeholder="orderNumber">
+                            <input class="form-control" th:field="*{quantity}"  type="text" placeholder="orderNumber">
                         </div>
-                        <!--                        <div class="col-md-6">-->
-                        <!--                            <label>avatar</label>-->
-                        <!--                            <input th:field="*{avatarFile}" name="avatarFile" type="file" placeholder="avatarFile">-->
-                        <!--                        </div>-->
+                        <div class="col-md-6">
+                            <label>Size</label>
+                            <input th:field="*{size}"  type="text" placeholder="Size">
+                        </div>
                         <div class="col-md-12">
                             <button class="btn">Submit</button>
                         </div>

@@ -5,15 +5,12 @@ import com.example.demo.model.Role;
 import com.example.demo.service.appUser.AppUserService;
 import com.example.demo.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
-import javax.naming.Name;
 import java.util.Optional;
 
 @Controller
@@ -25,7 +22,7 @@ public class AdminController {
     AppUserService appUserService;
 
     @GetMapping("list")
-    public ModelAndView showList(Pageable pageInfo) {
+    public ModelAndView showList() {
         ModelAndView modelAndView = new ModelAndView("");
         Role role_user = roleService.getById((long) 1);
         Role role_guest = roleService.getById((long) 2);
@@ -35,7 +32,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("/create/{id}")
+    @GetMapping("/create/admin/{id}")
     public   RedirectView createAdmin(@PathVariable Long id){
         Optional<AppUser> User =appUserService.findById(id);
         AppUser User1 = User.get();
