@@ -1,37 +1,39 @@
 package com.example.demo.service.orderDetails;
 
-import com.example.demo.model.OrderDetails;
+import com.example.demo.model.Order;
 import com.example.demo.repository.OrderDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Service
-public class OrderDetailsServiceImpl implements  OrderDetailsService {
+public class OrderDetailsServiceImpl implements OrderDetailsService {
     @Autowired
     OrderDetailsRepository orderDetailsRepository;
+
     @Override
-    public Iterable<OrderDetails> findAll() {
+    public Iterable<Order> findAll() {
         return null;
     }
 
     @Override
-    public Optional<OrderDetails> findById(Long id) {
-        return Optional.empty();
+    public Order findById(Long id) {
+        return orderDetailsRepository.getOne(id);
     }
 
     @Override
-    public OrderDetails save(OrderDetails orderDetails) {
-        return orderDetailsRepository.save(orderDetails);
+    public Order save(Order order) {
+        return orderDetailsRepository.save(order);
     }
 
     @Override
     public void remove(Long id) {
-
+        orderDetailsRepository.deleteById(id);
     }
 
     @Override
-    public OrderDetails findByOrderNumber(Long orderNumber) {
+    public Order findByOrderNumber(Long orderNumber) {
         return orderDetailsRepository.findByOrderNumber(orderNumber);
     }
 }

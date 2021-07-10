@@ -25,6 +25,10 @@ repositories {
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation group: 'org.postgresql', name: 'postgresql', version: '9.4-1201-jdbc41'
+
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     // https://mvnrepository.com/artifact/com.cloudinary/cloudinary-http44
     compile group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.25.0'
     // https://mvnrepository.com/artifact/com.cloudinary/cloudinary-core

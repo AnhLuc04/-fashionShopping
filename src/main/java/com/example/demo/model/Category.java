@@ -12,7 +12,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @SequenceGenerator(name = "Category_SEQ", sequenceName = "SEQUENCE_Category", allocationSize = 1)
     private Long categoryId;
-
+    private Long parentID;
     private String name;
 
     @OneToMany(mappedBy = "category")

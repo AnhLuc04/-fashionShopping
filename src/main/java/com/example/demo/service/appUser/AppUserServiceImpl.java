@@ -3,6 +3,7 @@ package com.example.demo.service.appUser;
 
 import com.example.demo.model.AppUser;
 import com.example.demo.model.Role;
+import com.example.demo.model.jwt.UserPrinciple;
 import com.example.demo.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,17 +36,12 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 //        return appUserRepository.getAllByRoleId(id);
         return null;
     }
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser user = this.getUserByUsername(username);
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(user.getRole());
 
-        UserDetails userDetails = new User(
-                user.getUserName(),
-                user.getPassword(),
-                authorities);
-        return userDetails;
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+            AppUser user = appUserRepository.findByUserName(username);
+
+            return UserPrinciple.build(user);
     }
 
 
@@ -85,8 +82,8 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     }
 
     @Override
-    public Optional<AppUser> findById(Long id) {
-        return appUserRepository.findById(id);
+    public AppUser findById(Long id) {
+        return appUserRepository.getOne(id);
     }
 
 
@@ -100,6 +97,5 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         appUserRepository.deleteById(id);
         return null;
     }
-
 
 }

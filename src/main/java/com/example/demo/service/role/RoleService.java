@@ -6,5 +6,6 @@ import com.example.demo.service.GeneralService;
 
 public interface RoleService extends GeneralService {
     Role getById(Long id);
+    Role findByTenVaiTro(String tenVaiTro);
 
 }

@@ -2,6 +2,8 @@ package com.example.demo.service.appUser;
 
 import com.example.demo.model.AppUser;
 import com.example.demo.model.Role;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
@@ -10,9 +12,10 @@ import java.util.Optional;
 
 @Service
 @Component
-public interface AppUserService {
+public interface AppUserService extends UserDetailsService {
     AppUser getUserByUsername(String username);
-//    AppUser findByName(String name);
+
+    //    AppUser findByName(String name);
     Iterable<AppUser> getAllByRoleId(Long id);
 
     AppUser getCurrentUser();
@@ -25,7 +28,7 @@ public interface AppUserService {
 
     Iterable<AppUser> findAll();
 
-    Optional<AppUser> findById(Long id);
+    AppUser findById(Long id);
 
     AppUser save(AppUser appUser);
 

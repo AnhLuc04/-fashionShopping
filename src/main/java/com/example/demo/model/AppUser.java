@@ -1,19 +1,19 @@
 package com.example.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +22,8 @@ public class AppUser {
     private String password;
     private String avatar;
     private String address;
-//    private boolean status;
-    private Long orderNumber;
+    //    private boolean status;
 
-    @Transient
-    private MultipartFile avatarFile;
 
     public String getAddress() {
         return address;
@@ -36,17 +33,11 @@ public class AppUser {
         this.address = address;
     }
 
-
-    @ManyToOne
-    public Role role;
-
-    public Long getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(Long orderNumber) {
-        this.orderNumber = orderNumber;
-    }
+    @Transient
+    @JsonIgnore
+    private List<Order> listOrder;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     public AppUser() {
     }
@@ -75,12 +66,12 @@ public class AppUser {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public String getAvatar() {
@@ -90,53 +81,19 @@ public class AppUser {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
+    public List<Order> getListOrder() {
+        return listOrder;
+    }
+
+    public void setListOrder(List<Order> listOrder) {
+        this.listOrder = listOrder;
+    }
 //
-//    public boolean isStatus() {
-//        return status;
+//    public Cart getCart() {
+//        return cart;
 //    }
-
-//    public void setStatus(boolean status) {
-//        this.status = status;
+//    public void setCart(Cart cart) {
+//        this.cart = cart;
 //    }
-
-    public MultipartFile getAvatarFile() {
-        return avatarFile;
-    }
-
-    public void setAvatarFile(MultipartFile avatarFile) {
-        this.avatarFile = avatarFile;
-    }
-
-//    public Set<Cart> getCarts() {
-//        return carts;
-//    }
-//
-//    public void setCarts(Set<Cart> carts) {
-//        this.carts = carts;
-//    }
-
-    public AppUser(Long userId, String userName, String password, String avatar, String address, boolean status, Long orderNumber, MultipartFile avatarFile, Role role, Set<Cart> carts) {
-        this.userId = userId;
-        this.userName = userName;
-        this.password = password;
-        this.avatar = avatar;
-        this.address = address;
-//        this.status = status;
-        this.orderNumber = orderNumber;
-        this.avatarFile = avatarFile;
-        this.role = role;
-//        this.carts = carts;
-    }
-
-    public AppUser(String userName, String password, String avatar, String address, boolean status, Long orderNumber, MultipartFile avatarFile, Role role, Set<Cart> carts) {
-        this.userName = userName;
-        this.password = password;
-        this.avatar = avatar;
-        this.address = address;
-//        this.status = status;
-        this.orderNumber = orderNumber;
-        this.avatarFile = avatarFile;
-        this.role = role;
-//        this.carts = carts;
-    }
 }
